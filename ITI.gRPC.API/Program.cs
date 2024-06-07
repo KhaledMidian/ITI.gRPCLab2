@@ -42,7 +42,7 @@ namespace ITI.gRPC.API
 
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

@@ -1,0 +1,61 @@
+syntax = "proto3";
+option csharp_namespace = "ITI.gRPC.Server.Protos";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+
+service productService
+{
+	rpc getProductById(productID) returns (confirmMessage);
+	rpc AddProduct (productForAdd) returns (productServiceMessage);
+	rpc UpdateProduct (product) returns (productServiceMessage);
+	rpc AddBulkProd(stream productForAdd) returns(NumberOfInsertedProducts);
+	rpc GetProductsByCriteria(ProductCriteriaMsg) returns (stream product);
+}
+
+message productServiceMessage {
+	bool status = 1;
+	string massage = 2;
+	product  Product = 3;
+}
+
+message confirmMessage {
+	bool status = 1;
+	string massage = 2;
+}
+
+message productID {
+	int32 Id = 1;
+}
+
+message productForAdd {
+	string Name = 1;
+	int32 price = 2;
+	int32 quantity = 3;
+	google.protobuf.Timestamp expiredates = 4;
+    ProductCategory category = 5;
+}
+
+message product {
+	int32 Id = 1;
+	string Name = 2;
+	int32 price = 3;
+	int32 quantity = 4;
+	google.protobuf.Timestamp expiredates = 5;
+    ProductCategory category = 6;
+}
+
+message NumberOfInsertedProducts {
+    int32 numOfInsertedRows = 1;
+}
+
+enum ProductCategory {
+	Tech = 0;
+	Car=1;
+	Food=2;
+}
+
+message ProductCriteriaMsg {
+    ProductCategory category = 1;
+    bool orderByPrice = 2;
+}
